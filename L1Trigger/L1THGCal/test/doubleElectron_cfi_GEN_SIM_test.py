@@ -59,6 +59,9 @@ process.FEVTDEBUGoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = cms.untracked.vstring(
         'drop *',
+        'keep *_*_HGCHitsEE_*',
+        'keep *_*_HGCHitsHEback_*',
+        'keep *_*_HGCHitsHEfront_*',
         'keep *_mix_*_*',
         'keep *_genParticles_*_*'
         ),

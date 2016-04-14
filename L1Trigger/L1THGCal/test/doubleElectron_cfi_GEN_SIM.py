@@ -59,10 +59,13 @@ process.FEVTDEBUGoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = cms.untracked.vstring(
         'drop *',
+        'keep *_*_HGCHitsEE_*',
+        'keep *_*_HGCHitsHEback_*',
+        'keep *_*_HGCHitsHEfront_*',
         'keep *_mix_*_*',
         'keep *_genParticles_*_*'
         ),
-    fileName = cms.untracked.string('file:DoubleElectron_Pt20_PU0_GEN_SIM_DIGI_XXX_SEED_XXX.root'),
+    fileName = cms.untracked.string('file:DoubleElectron_Pt20_PU0_GEN_SIM_XXX_SEED_XXX.root'),
     #outputCommands = process.FEVTDEBUGEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
@@ -78,8 +81,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:run2_mc', '')
 process.generator = cms.EDProducer("FlatRandomPtGunProducer",
     PGunParameters = cms.PSet(
         PartID = cms.vint32([11]),
-        MinPt = cms.double(19.99),
-        MaxPt = cms.double(20.01),
+        MinPt = cms.double(XXX_PTMIN_XX),
+        MaxPt = cms.double(XX_PTMAX_XXX),
         MinEta = cms.double(1.50),
         MaxEta = cms.double(3.),
         MinPhi = cms.double(-3.14159265359),
