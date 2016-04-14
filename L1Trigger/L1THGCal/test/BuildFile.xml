@@ -9,7 +9,7 @@
 <use   name="Geometry/Records"/>
 <use   name="CommonTools/UtilAlgos"/>
 
-<library name="testL1TriggerL1THGCal"  file="HGCalTriggerGeomTester.cc,HGCalTriggerBestChoiceTester.cc">
+<library name="testL1TriggerL1THGCal"  file="HGCalTriggerGeomTester.cc,HGCalTriggerBestChoiceTester.cc,HGCalTriggerDigiNtuplizer.cc">
 <flags   EDM_PLUGIN="1"/>
 </library>
 
