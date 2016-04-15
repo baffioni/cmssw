@@ -4,11 +4,14 @@ import os,sys
 import optparse
 import commands
 import time
+import glob
+import math
 
 
 usage = 'usage: %prog [options]'
 parser = optparse.OptionParser(usage)
 parser.add_option('-s', '--seed'      ,    dest='seed'              , help='initial seed'                                        , default=1,  type=int)
+parser.add_option('-i', '--inputs'      ,    dest='inputs'              , help='inputs '                                     , default='./dummy.root')
 parser.add_option('-n', '--njobs'      ,    dest='njobs'              , help='number of jobs'                                     , default=1,  type=int)
 parser.add_option('-e', '--nevents'      ,    dest='nevents'              , help='number of events per job'                                     , default=1,  type=int)
 parser.add_option('-o', '--out'        ,    dest='output'             , help='output directory'                                   , default='/data_CMS2/cms/SLHC18_SingleElectronPt35_PU50/')
@@ -16,6 +19,12 @@ parser.add_option('-c', '--cfg'        ,    dest='cfg'                , help='cf
 parser.add_option('-r', '--rep'        ,    dest='customReplacements' , help='sed replacements for cfg  key1:val1,key2:val2,...'  , default=None)
 (opt, args) = parser.parse_args()
 
+# Prepate inputs
+inputs = glob.glob(opt.inputs)
+nFilesPerJob = int(math.ceil(float(len(inputs))/float(opt.njobs)))
+if len(inputs)>0:
+    print 'Running on {N} input files'.format(N=len(inputs))
+    print ' --> {N} input file per job'.format(N=nFilesPerJob)
 
 #prepare output
 if not os.path.isdir(opt.output):
@@ -29,8 +38,13 @@ def replfunc(match):
 
 
 #loop over the required number of jobs
-for n in xrange(opt.seed,opt.seed+opt.njobs):
-    jobSeed = n
+for n in xrange(opt.njobs):
+    jobSeed = opt.seed+n
+    jobInputs = []
+    if len(inputs)>0:
+        for i in xrange(nFilesPerJob*n, nFilesPerJob*(n+1)):
+            if i<len(inputs):
+                jobInputs.append('"file:'+inputs[i]+'"')
     #sed the cfg template 
     inCfg = open(opt.cfg).read()
     outCfg = open('%s/cmssw_%d_cfg.py'%(jobsDir,jobSeed), 'w')
@@ -38,6 +52,7 @@ for n in xrange(opt.seed,opt.seed+opt.njobs):
         'XXX_SEED_XXX':str(jobSeed),
         'XXX_SKIP_XXX':str(jobSeed*20 - 20),
         'XXX_EVENTS_XXX':str(opt.nevents),
+        'XXX_INPUTS_XXX':',\n'.join(jobInputs),
     }
     if opt.customReplacements is not None:
         for rep in opt.customReplacements.split(','):

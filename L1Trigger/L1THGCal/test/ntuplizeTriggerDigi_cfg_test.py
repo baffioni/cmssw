@@ -24,11 +24,9 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10)
 )
-files = [
-XXX_INPUTS_XXX
-]
+files = ['file:signal.root']
 
 # Input source
 process.source = cms.Source("PoolSource",
@@ -43,7 +41,7 @@ process.options = cms.untracked.PSet(
 
 process.TFileService = cms.Service(
     "TFileService",
-    fileName = cms.string("digintuple_XXX_SEED_XXX.root")
+    fileName = cms.string("digintuple.root")
     )
 
 
