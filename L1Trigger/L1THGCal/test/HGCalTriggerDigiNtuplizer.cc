@@ -67,22 +67,22 @@ class HGCalTriggerDigiNtuplizer : public edm::EDAnalyzer
         std::shared_ptr<float> genEta_;
         std::shared_ptr<float> genPhi_;
         // cells information
-        int                    cellN_     ;
-        std::shared_ptr<int>   cellId_     ;
-        std::shared_ptr<int>   cellSubdet_   ;
-        std::shared_ptr<int>   cellSide_   ;
-        std::shared_ptr<int>   cellLayer_  ;
-        std::shared_ptr<int>   cellWafer_ ;
-        std::shared_ptr<int>   cellWaferType_ ;
-        std::shared_ptr<int>   cellCell_ ;
-        std::shared_ptr<int>   cellModuleId_ ;
-        std::shared_ptr<int>   cellTriggerCellId_ ;
-        std::shared_ptr<int>   cellDigi_ ;
-        std::shared_ptr<float> cellX_      ;
-        std::shared_ptr<float> cellY_      ;
-        std::shared_ptr<float> cellZ_      ; 
-        std::shared_ptr<float> cellEta_    ;
-        std::shared_ptr<float> cellPhi_    ;
+        int                       cellN_     ;
+        std::shared_ptr<int>      cellId_     ;
+        std::shared_ptr<int>      cellSubdet_   ;
+        std::shared_ptr<int>      cellSide_   ;
+        std::shared_ptr<int>      cellLayer_  ;
+        std::shared_ptr<int>      cellWafer_ ;
+        std::shared_ptr<int>      cellWaferType_ ;
+        std::shared_ptr<int>      cellCell_ ;
+        std::shared_ptr<int>      cellModuleId_ ;
+        std::shared_ptr<int>      cellTriggerCellId_ ;
+        std::shared_ptr<uint32_t> cellDigi_ ;
+        std::shared_ptr<float>    cellX_      ;
+        std::shared_ptr<float>    cellY_      ;
+        std::shared_ptr<float>    cellZ_      ; 
+        std::shared_ptr<float>    cellEta_    ;
+        std::shared_ptr<float>    cellPhi_    ;
         // trigger cells information
         //int                    triggerCellN_     ;
         //std::shared_ptr<int>   triggerCellId_     ;
@@ -136,7 +136,7 @@ HGCalTriggerDigiNtuplizer::HGCalTriggerDigiNtuplizer(const edm::ParameterSet& co
     cellCell_           .reset(new int[1],   array_deleter<int>());
     cellModuleId_       .reset(new int[1],   array_deleter<int>());
     cellTriggerCellId_  .reset(new int[1],   array_deleter<int>());
-    cellDigi_           .reset(new int[1],   array_deleter<int>());
+    cellDigi_           .reset(new uint32_t[1],   array_deleter<uint32_t>());
     cellX_              .reset(new float[1], array_deleter<float>());
     cellY_              .reset(new float[1], array_deleter<float>());
     cellZ_              .reset(new float[1], array_deleter<float>());
@@ -176,7 +176,7 @@ HGCalTriggerDigiNtuplizer::HGCalTriggerDigiNtuplizer(const edm::ParameterSet& co
     tree_->Branch("cell_cell"                 , cellCell_                 .get() , "cell_cell[cell_n]/I");
     tree_->Branch("cell_moduleid"             , cellModuleId_             .get() , "cell_moduleid[cell_n]/I");
     tree_->Branch("cell_triggercellid"        , cellTriggerCellId_        .get() , "cell_triggercellid[cell_n]/I");
-    tree_->Branch("cell_digi"                 , cellDigi_                 .get() , "cell_digi[cell_n]/I");
+    tree_->Branch("cell_digi"                 , cellDigi_                 .get() , "cell_digi[cell_n]/i");
     tree_->Branch("cell_x"                    , cellX_                    .get() , "cell_x[cell_n]/F");
     tree_->Branch("cell_y"                    , cellY_                    .get() , "cell_y[cell_n]/F");
     tree_->Branch("cell_z"                    , cellZ_                    .get() , "cell_z[cell_n]/F");
@@ -273,7 +273,7 @@ void HGCalTriggerDigiNtuplizer::analyze(const edm::Event& e, const edm::EventSet
         cellCell_          .get()[ic] = id.cell();
         cellModuleId_      .get()[ic] = 0;//modulePtr->moduleId();
         cellTriggerCellId_ .get()[ic] = 0;//triggerCellPtr->triggerCellId();
-        cellDigi_          .get()[ic] = eedata[2].data(); 
+        cellDigi_          .get()[ic] = eedata[2].raw(); 
         cellX_             .get()[ic] = center.x();
         cellY_             .get()[ic] = center.y();
         cellZ_             .get()[ic] = center.z();
@@ -296,7 +296,7 @@ void HGCalTriggerDigiNtuplizer::analyze(const edm::Event& e, const edm::EventSet
         cellCell_          .get()[ic] = id.cell();
         cellModuleId_      .get()[ic] = 0;//modulePtr->moduleId();
         cellTriggerCellId_ .get()[ic] = 0;//triggerCellPtr->triggerCellId();
-        cellDigi_          .get()[ic] = fhdata[2].data(); 
+        cellDigi_          .get()[ic] = fhdata[2].raw(); 
         cellX_             .get()[ic] = center.x();
         cellY_             .get()[ic] = center.y();
         cellZ_             .get()[ic] = center.z();
@@ -395,7 +395,7 @@ void HGCalTriggerDigiNtuplizer::setTreeCellSize(const size_t n)
     cellCell_           .reset(new int[n],   array_deleter<int>());
     cellModuleId_       .reset(new int[n],   array_deleter<int>());
     cellTriggerCellId_  .reset(new int[n],   array_deleter<int>());
-    cellDigi_           .reset(new int[n],   array_deleter<int>());
+    cellDigi_           .reset(new uint32_t[n],   array_deleter<uint32_t>());
     cellX_              .reset(new float[n], array_deleter<float>());
     cellY_              .reset(new float[n], array_deleter<float>());
     cellZ_              .reset(new float[n], array_deleter<float>());
