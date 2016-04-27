@@ -44,20 +44,20 @@ particleFlowRecHitHGC = cms.EDProducer("PFRecHitProducer",
                   recHitEnergyMultiplier = cms.double(1.0)
                   )                
                 )
-           ),
-           cms.PSet(
-             name = cms.string("PFHGCHEBRecHitCreator"),
-             src  = cms.InputTag("HGCalRecHit:HGCHEBRecHits"),
-             geometryInstance = cms.string("HGCalHEScintillatorSensitive"),
-             qualityTests = cms.VPSet( 
-                cms.PSet(
-                  name = cms.string("PFRecHitQTestThresholdInMIPs"),
-                  thresholdInMIPs = cms.double(1.01),
-                  mipValueInkeV = cms.double(1498.4),
-                  recHitEnergyIs_keV = cms.bool(False),
-                  recHitEnergyMultiplier = cms.double(1.0)
-                  )
-                )
            )
+           #cms.PSet(
+             #name = cms.string("PFHGCHEBRecHitCreator"),
+             #src  = cms.InputTag("HGCalRecHit:HGCHEBRecHits"),
+             #geometryInstance = cms.string("HGCalHEScintillatorSensitive"),
+             #qualityTests = cms.VPSet( 
+                #cms.PSet(
+                  #name = cms.string("PFRecHitQTestThresholdInMIPs"),
+                  #thresholdInMIPs = cms.double(1.01),
+                  #mipValueInkeV = cms.double(1498.4),
+                  #recHitEnergyIs_keV = cms.bool(False),
+                  #recHitEnergyMultiplier = cms.double(1.0)
+                  #)
+                #)
+           #)
     )          
 )
