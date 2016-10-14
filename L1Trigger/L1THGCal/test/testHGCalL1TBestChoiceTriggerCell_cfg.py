@@ -125,7 +125,7 @@ process.hgcl1tpg_step2 = cms.Path(process.hgcalTriggerPrimitives_reproduce)
 
 # define best choice tester
 process.hgcaltriggerbestchoicetester = cms.EDAnalyzer(
-    "HGCalTriggerBestChoiceTester",
+    "HGCalTriggerBestChoiceTriggerCellTester",
     eeDigis = cms.InputTag('mix:HGCDigisEE'),
     fhDigis = cms.InputTag('mix:HGCDigisHEfront'),
     #bhDigis = cms.InputTag('mix:HGCDigisHEback'),
@@ -135,7 +135,7 @@ process.hgcaltriggerbestchoicetester = cms.EDAnalyzer(
     #bhSimHits = cms.InputTag('g4SimHits:HGCHitsHEback'),
     beClustersAll = cms.InputTag('hgcalTriggerPrimitiveDigiProducer:SingleCellClusterAlgo'),
     beClustersSelect = cms.InputTag('hgcalTriggerPrimitiveDigiFEReproducer:SingleCellClusterAlgo'),
-    FECodec = process.hgcalTriggerPrimitiveDigiProducer.FECodec.clone()
+    FECodec = process.hgcalTriggerPrimitiveDigiFEReproducer.FECodec.clone()
     )
 process.test_step = cms.Path(process.hgcaltriggerbestchoicetester)
 
