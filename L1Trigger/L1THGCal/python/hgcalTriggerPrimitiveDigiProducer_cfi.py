@@ -20,7 +20,7 @@ fe_codec = cms.PSet( CodecName  = cms.string('HGCalTriggerCellBestChoiceCodec'),
 
 
 
-cluster_algo =  cms.PSet( AlgorithmName = cms.string('FullModuleSumAlgo'),
+cluster_algo =  cms.PSet( AlgorithmName = cms.string('FullModuleSumAlgoBestChoice'),
                                  FECodec = fe_codec )
 
 
